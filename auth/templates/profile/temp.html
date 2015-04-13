@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <title>jQuery timePicker</title>
+  {% load staticfiles %}
+ <style type="text/css" media="all">@import "{% static 'css/timePicker.css' %}";</style>
+    
+  <script type="text/javascript" src="{% static 'js/timer.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/timePicker.js' %}"></script>
+  <script type="text/javascript">
+  jQuery(function() {
+  
+    $("#time3, #time4").timePicker();
+        
+    // Store time used by duration.
+    var oldTime = $.timePicker("#time3").getTime();
+    
+    // Keep the duration between the two inputs.
+    $("#time3").change(function() {
+      if ($("#time4").val()) { // Only update when second input has a value.
+        // Calculate duration.
+        var duration = ($.timePicker("#time4").getTime() - oldTime);
+        var time = $.timePicker("#time3").getTime();
+        // Calculate and update the time in the second input.
+        $.timePicker("#time4").setTime(new Date(new Date(time.getTime() + duration)));
+        oldTime = time;
+      }
+    });
+    // Validate.
+    $("#time4").change(function() {
+      if($.timePicker("#time3").getTime() > $.timePicker(this).getTime()) {
+        $(this).addClass("error");
+      }
+      else {
+        $(this).removeClass("error");
+      }
+    });
+    
+  });
+  </script>
+  <script type="text/javascript">
+  // Analytics.
+  var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-123444-3"]),_gaq.push(["_trackPageview"]),function(){var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)}()
+  </script>
+</head>
+
+<body>
+
+<div><input type="text" id="time3" size="10" value="08:00" /> <input type="text" id="time4" size="10" value="09:00" /></div>
+
+
+<label>
+    <select>
+        <option selected> Select Box </option>
+        <option>Short Option</option>
+        <option>This Is A Longer Option</option>
+    </select>
+</label>
+
+</body>
+</html>

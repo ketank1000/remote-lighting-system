@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Danson Lighting</title>
+    {% load staticfiles %}
+    <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+        
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    
+    <!-- *********  Header  ********** -->
+    
+ 
+
+
+
+ <div id="header">
+        <div id="header_in">
+        
+        <h1><a href="user_home"><b>DANSON</b> LIGHTING</a></h1>
+        
+        <div id="menu">
+         <ul>
+            <li><a href="{% url 'user_home'%}" >Home</a></li>
+            <li><a href="{% url 'edit'%}">Edit</a></li>
+            <li><a href="{% url 'view'%}">View</a></li>
+            <li><a href="{% url 'user_contact'%}">Contact</a></li>
+            <li><a href="{% url 'settings'%}" class="active">Settings</a></li>
+         </ul>
+        </div>
+        
+        </div>
+    </div>
+
+
+ <!-- *********  Main part (layout)  ********** -->
+
+<div id="main_part"></div>
+
+<div id="leftblock">
+    <div id="leftblock1"></div>        
+
+    <div id="leftblock2">   
+        <div id="lmenu">
+            <ul>
+                <li><a href="#" onclick="toggle_visibility('list1');">profile</a></li>
+                <li><a href="#" onclick="toggle_visibility('list2');">account</a></li>
+                   
+                <li><a href="#" onclick="toggle_visibility('list3');">calender</a></li>
+                <li><a href="{% url 'logout' %}" onclick="toggle_visibility('list4');">logout</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <div id="c1block"></div>
+
+        <div id="c2block">
+            <div id="list1" class="alist" >
+                <p>my profile</p>
+            </div>
+            <div id="list2" class="alist" style="display:none;">
+                <p>my account</p>
+                
+            </div>
+            <div id="list3" class="alist" style="display:none;">
+                <p>my calender</p>
+            </div>
+            <div id="list4" class="alist" style="display:none;">
+                <p>logout</p>
+            </div>
+                
+        </div>
+
+
+
+
+<script type="text/javascript">
+    function toggle_visibility(id) {
+        var list = document.getElementsByClassName("alist");
+        for (var i = 0; i < list.length; i++) {
+            list[i].style.display = 'none';
+        }
+        var e = document.getElementById(id);
+        if(e.style.display == 'block') {
+            e.style.display = 'none';
+        } else {
+            e.style.display = 'block';
+        }
+    }
+</script>
+        
+        
+        <!-- *********  Content  ********** -->
+        
+        
+    <!-- *********  Footer  ********** -->
+    
+    <hr class="cleanit">
+    
+     <div id="footer">
+        <div id="footer_in">    
+        Logged in as :{{ username }}        
+            <span>Author: <a href="http://ries.cz">VIIT</a></span>        
+        </div>
+    </div>
+         
+<script>
+// script for testimonial' tabs
+$(function() {
+    $("ul.controls").tabs("div.testimonials > div");
+});
+</script>
+
+</body>
+</html>

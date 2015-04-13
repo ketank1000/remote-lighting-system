@@ -1,0 +1,404 @@
+
+<!doctype HTML>
+<html>
+<head>
+<!-- The usual google analytics -->
+{% load staticfiles %}
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7601972-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<title>Danson Lighting</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css" />
+    <script src="{% static 'js/jquery.js' %}"></script>
+</head>
+
+
+
+<body onload="load_led(),load_group()">
+
+<div id="header">
+        <div id="header_in">
+        
+        <h1><a href="user_home"><b>DANSON</b> LIGHTING</a></h1>
+        
+        <div id="menu">
+         <ul>
+            <li><a href="{% url 'user_home'%}" class="active">Home</a></li>
+            <li><a href="{% url 'edit'%}" >Edit</a></li>
+            <li><a href="{% url 'view'%}">View</a></li>
+            <li><a href="{% url 'user_contact'%}">Contact</a></li>
+            <li><a href="{% url 'settings'%}">Settings</a></li>
+         </ul>
+        </div>
+        
+        </div>
+    </div>
+
+
+ <!-- *********  Main part (layout)  ********** -->
+
+
+<div id="main_part"></div>
+
+<div id="leftblock">
+    <div id="leftblock1"></div>        
+  
+    <div id="leftblock2">   
+        <div id="lmenu">
+            <ul>
+                <li><a href="#" onclick="toggle_visibility('list1');">place</a></li>
+                <li><a href="{% url 'user_home'%}" onclick="toggle_visibility('list1');">single</a></li>
+                <li><a href="#" onclick="toggle_visibility('list1');">group</a></li>
+                <li><a href="{% url 'automation'%}" onclick="toggle_visibility('list2');">automation</a></li>                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="rightblock">
+    <div id="leftblock1"></div>        
+    
+    <div id="leftblock2">
+        <div id="lmenu1">
+            <div id="list1" class="alist" >
+                <ul>
+                    <li><a href="#" onclick="groupdiv()" >add group</a></li>
+                  <form action="/group/" method="post" >
+                    {% csrf_token %}
+                    <select id="groupname" name="groupname">
+                        {% for ledsgroup in ledgroup %}
+                            <option> {{ledsgroup.groupname}} </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="show_leds" name="show_leds" id="show_leds" ><br>
+                    </form>
+
+                    <div id="show_grcolor"> group color </div>
+                <form action="/group_status/" method="post">
+                    {% csrf_token %}
+                    <select id="groupname" name="groupname">
+                        {% for ledsgroup in ledgroup %}
+                            <option> {{ledsgroup.groupname}} </option>
+                        {% endfor %}
+                    </select>
+                    <input type="radio" name="ledstatus" id="ledstatus" value="1" >ON
+                    <input type="radio" name="ledstatus" id="ledstatus" value="0" >OFF
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="100">
+                    <input type="text" name="intensity" value="" id="intensity">
+                    <input type="submit" value="delete" name="delete" id="delete"><br>
+                    <input type="submit" value="save" name="save" id="save"><br>
+
+                </form> 
+                <form action="/group_status/" method="post">
+                    <p>edit group profile</p>
+                    {% csrf_token %}
+                    <select id="groupname" name="groupname">
+                        {% for ledsgroup in ledgroup %}
+                            <option> {{ledsgroup.groupname}} </option>
+                        {% endfor %}
+                    </select>
+                    <p>New name<input type="text" name="new_grname" value="" id="new_grname"></p>
+                    <div class="preview"></div>
+                    <div class="colorpicker" style="display:none">
+                         <canvas id="picker" var="2" width="300" height="300"></canvas>
+
+                        <div class="controls">
+                    
+                            <div style="display:none"><label>RGB</label> <input type="text" id="rgbVal" /></div>
+                            <div style="display:none"><label>HEX</label> <input type="text" id="hexVal" /></div>
+                        </div>
+                    </div>
+                    <p><input type="text" name="grfill" value="" id="grfill"></p>
+                    <input type="submit" value="change" name="change" id="change">
+                </form>
+                </ul>
+
+            </div>
+            <div id="list2" class="alist" style="display:none;">
+                <ul>
+                    <li><a href="#" >select by group</a></li>                    
+                    <li><a href="#" >date</a></li>
+                    <li><a href="#" >status</a></li>                    
+                </ul>
+            </div>
+        </div>
+        
+
+    </div>
+        
+</div>
+
+
+<script type="text/javascript">
+    function toggle_visibility(id) {
+        var list = document.getElementsByClassName("alist");
+        for (var i = 0; i < list.length; i++) {
+            list[i].style.display = 'none';
+        }
+        var e = document.getElementById(id);
+        if(e.style.display == 'block') {
+            e.style.display = 'none';
+        } else {
+            e.style.display = 'block';
+        }
+    }
+</script>
+
+        
+
+
+        <div id="c1block"></div>
+
+    <div id="c2block">
+    <div id="container2">
+        
+        
+        
+        
+            <!-- colorpicker element -->
+            
+
+        </div>
+        
+         <br>
+        
+        <br>
+
+
+        <canvas id="canvas1" width="800" height="500" style="border: 1px solid black;">
+This text is displayed if your browser does not support HTML5 Canvas.
+</canvas>
+    
+    
+    </div>
+    </div>
+
+
+<div id="automation" style="display:none">
+    <div id="autocontent">
+    <p id="autoname"> value </p>
+
+    
+            <form action="/group_update/" method="post" >
+
+               <input type="text" name="FirstName" id="FirstName" value="" style="display:none">
+            <input type="text" name="xposition" id="xposition" value= "" style="display:none">
+            <input type="text" name="yposition" id="yposition" value= "" style="display:none">
+            <input type="text" name="status" id="status" value="" style="display:none">
+           
+            <label>groups present in:</label>
+              <!--  <select>
+                    {% for leds in leds_in_group%}
+                       <!-- {% if leds.name == FirstName %}
+                            <option> {{leds.groupname}} </option>
+                        {% endif %}
+                        <option> {{leds.groupname}} </option>
+                    {% endfor %}
+                </select> -->
+                    <select name="grname" id="grname">
+                        
+                        {% for ledsgroup in ledgroup %}
+                            <option> {{ledsgroup.groupname}} </option>
+                        {% endfor %}
+                    </select>
+            
+
+                    <br>
+            <input type="submit" value="add" name="add">
+            <input type="submit" value="delete" name="delete">
+            </form>
+
+            
+    
+    </div> 
+    </div>
+
+<div id="grdiv" style="display:none">
+
+    <div id="autocontent">
+    <p id="autoname"> value </p>
+    <input type="button" id="cancel_home" onclick="cancelchart()">
+      
+                
+            <form action="/add_group/" method="post" >
+
+               <p>gname<input type="text" name="groupname" id="groupname" value=""></p>
+               <div class="preview">
+            
+        </div>
+        <div class="colorpicker" style="display:none">
+                <canvas id="picker" var="2" width="300" height="300"></canvas>
+
+                <div class="controls">
+                    
+                    <div style="display:none"><label>RGB</label> <input type="text" id="rgbVal" /></div>
+                    <div style="display:none"><label>HEX</label> <input type="text" id="hexVal" /></div>
+                </div>
+            </div>
+            <p>color<input type="text" name="grfill" id="grfill" value="" ></p>
+            <input type="submit" value="submit" onclick="grhidediv()">
+            
+            </form>
+            
+    
+    </div> 
+    </div>
+
+<div style="font-family: Verdana; font-size: 12px;">
+Logged in as :{{ username }}
+  <p>Click to select. Double click to create a new Shape.</p>
+  <p><a href="{% static  'js/shapes.js' %}">link to the javascript file.</a></p>
+  
+</div>
+{% load staticfiles %}
+<script src="{% static 'js/shapes' %}"></script>
+<script src="{{ STATIC_URL }}js/group.js" type="text/javascript"></script>
+
+<!--<script src="{{ STATIC_URL }}js/colorpick.js" type="text/javascript"></script> -->
+
+<script type="text/javascript">
+    $("#slider").change(function(){
+        number = $("#slider").val();
+        $('#intensity').val(number.toString());
+    });
+</script>
+
+<script type="text/javascript">
+/**
+ *
+ * HTML5 Color Picker
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ * 
+ * Copyright 2012, Script Tutorials
+ * http://www.script-tutorials.com/
+ */
+    var pixelColor = '';
+    var led_color ="";    
+    var bCanPreview = true; // can preview
+
+    // create canvas and context objects
+    var canvas = document.getElementById('picker');
+    var ctxpic = canvas.getContext('2d');
+
+    // drawing active image
+    var image = new Image();
+    image.onload = function (e) {
+        ctxpic.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
+    }
+
+    // select desired colorwheel
+    var imageSrc = "{% static "images/colorwheel2.png" %}";
+
+    
+    image.src = imageSrc;
+
+    $('#picker').mousemove(function(e) { // mouse move handler
+        if (bCanPreview) {
+            // get coordinates of current position
+            var canvasOffset = $(canvas).offset();
+            var canvasX = Math.floor(e.pageX - canvasOffset.left);
+            var canvasY = Math.floor(e.pageY - canvasOffset.top);
+
+            // get current pixel
+            var imageData = ctxpic.getImageData(canvasX, canvasY, 1, 1);
+            var pixel = imageData.data;
+
+            // update preview color
+            pixelColor = "rgb("+pixel[0]+", "+pixel[1]+", "+pixel[2]+")";
+            $('.preview').css('backgroundColor', pixelColor);
+
+            // update controls
+            $('#rVal').val(pixel[0]);
+            $('#gVal').val(pixel[1]);
+            $('#bVal').val(pixel[2]);
+            $('#rgbVal').val(pixel[0]+','+pixel[1]+','+pixel[2]);
+
+            var dColor = pixel[2] + 256 * pixel[1] + 65536 * pixel[0];
+            $('#grfill').val('#' + ('0000' + dColor.toString(16)).substr(-6));
+            pixelColor = document.getElementById("grfill").value;
+
+        }
+    });
+    $('#picker').click(function(e) { // click event handler
+        bCanPreview = !bCanPreview;
+    }); 
+    $('.preview').click(function(e) { // preview click
+        $('.colorpicker').fadeToggle("fast", "linear");
+        bCanPreview = true;        
+    });
+    
+</script>
+<script type="text/javascript">
+  
+
+      var s = new CanvasState(document.getElementById('canvas1'));
+
+function load_led(){
+        {% for leds in led %}
+
+            var str2 = "{{leds.name}}"
+            var x = {{leds.x}}
+            var y = {{leds.y}}
+            var w = 30
+            var h = 30
+            var fill = "{{leds.color}}"
+            var status = {{leds.status}}
+            document.getElementById("FirstName").value = str2;
+            document.getElementById("xposition").value = x;
+            document.getElementById("yposition").value = y;
+            document.getElementById("status").value = status;
+            //document.getElementById("fill").value = fill;
+            add1(str2,x,y,status,fill);
+        {% endfor %} 
+    } 
+    
+    function load_group(){
+        
+
+        {% for leds in led %}
+
+            var str2 = "{{leds.name}}"
+            var x = {{leds.x}}
+            var y = {{leds.y}}
+            var w = 30
+            var h = 30
+            var fill = "{{leds.color}}"
+            var status = {{leds.status}}
+            document.getElementById("FirstName").value = str2;
+            document.getElementById("xposition").value = x;
+            document.getElementById("yposition").value = y;
+            document.getElementById("status").value = status;
+            //document.getElementById("fill").value = fill;
+            add1(str2,x,y,status,fill);
+        {% endfor %}
+
+        {% for leds in leds_list %}
+            var str2 = "{{leds.name}}"
+            var x = {{leds.x}}
+            var y = {{leds.y}}
+            var fill = "{{leds.color}}"
+                var group_color = "{{group_color}}"
+            document.getElementById("show_grcolor").style.backgroundColor = group_color;
+            add1(str2,x,y,0,group_color);
+
+        {% endfor %}
+    }
+
+    
+</script>
+
+
+</body>
+</html>

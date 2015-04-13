@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>Danson Lighting</title>
+    {% load staticfiles %}
+    <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+        
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    
+    <!-- *********  Header  ********** -->
+    
+    <div id="header">
+        <div id="header_in">
+        
+    <h1><a href="{% url 'index'%}"><b>DANSON</b> LIGHTING</a></h1>
+        
+    <div id="menu">
+    {% block menu %}
+<ul>
+<li><a href="{% url 'index'%}" class="active">Home</a></li>
+<li><a href="{% url 'about'%}">About</a></li>
+<li><a href="{% url 'blog'%}">Blog</a></li>
+<li><a href="{% url 'contact'%}">Contact</a></li>            
+<li><a href="{% url 'login'%}">Login</a></li>       
+</ul>
+         {% endblock %}
+        </div>
+        
+        </div>
+    </div>
+    
+    <!-- *********  Main part (slider)  ********** -->
+    
+        
+        <div id="main_part">
+                        
+        </div>
+        
+        
+        <!-- *********  Content  ********** -->
+        <div id="c1block"></div>
+        <div id="hc2block">
+        <div id="content">
+            {% block content %}
+            content here
+            {% endblock %}
+        </div>
+        
+        </div>
+    
+    
+    <!-- *********  Footer  ********** -->
+    
+    
+    <hr class="cleanit">
+    
+     <div id="footer">
+        <div id="footer_in">            
+        {% block footer %}
+            <span>Author: <a href="http://ries.cz">VIIT</a></span>        
+        {% endblock %}
+        </div>
+    </div>
+         
+<script>
+// script for testimonial' tabs
+$(function() {
+    $("ul.controls").tabs("div.testimonials > div");
+});
+</script>
+
+</body>
+</html>
